@@ -30,8 +30,10 @@ pipeline {
                 sh "docker push ${REPOSITORY_URI}:${IMAGE_TAG}"
                 echo 'Writing image definitions file...'
                 sh """echo '[{"name":"${JOB_NAME}","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]' > imagedefinitions.json"""
-                prettyJSON = JsonOutput.prettyPrint('imagedefinitions.json')
-                echo("${prettyJSON}")
+                script {
+                    prettyJSON = JsonOutput.prettyPrint('imagedefinitions.json')
+                    echo("${prettyJSON}")
+                }
             }
         }
     }

@@ -1,3 +1,4 @@
+import groovy.json.JsonOutput
 def REPOSITORY_URI
 def COMMIT_HASH
 def IMAGE_TAG
@@ -29,6 +30,8 @@ pipeline {
                 sh "docker push ${REPOSITORY_URI}:${IMAGE_TAG}"
                 echo 'Writing image definitions file...'
                 sh """echo '[{"name":"${JOB_NAME}","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]' > imagedefinitions.json"""
+                prettyJSON = JsonOutput.prettyPrint('imagedefinitions.json')
+                echo("${prettyJSON}")
             }
         }
     }

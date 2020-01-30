@@ -14,20 +14,19 @@ pipeline {
         }
         stage('build') {
             steps {
-                echo  "my internal ip is: ${REPOSITORY_URI}"
-                echo 'Build started on `date`'
+                echo "Build started on `date`"
                 echo 'Building the Docker image...'
-                sh 'docker build -t ${REPOSITORY_URI}:latest .'
-                sh 'docker tag ${REPOSITORY_URI}:latest ${REPOSITORY_URI}:${IMAGE_TAG}'
+                sh "docker build -t ${REPOSITORY_URI}:latest ."
+                sh "docker tag ${REPOSITORY_URI}:latest ${REPOSITORY_URI}:${IMAGE_TAG}"
             }
         }
         stage('post-build') {
             steps {
-                echo 'Build completed on `date`'
+                echo "Build completed on `date`"
                 echo 'Pushing the Docker images...'
                 sh '$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)'
-                sh 'docker push $REPOSITORY_URI:latest'
-                sh 'docker push $REPOSITORY_URI:$IMAGE_TAG'
+                sh "docker push ${REPOSITORY_URI}:latest"
+                sh "docker push ${REPOSITORY_URI}:${IMAGE_TAG}"
                 echo 'Writing image definitions file...'
                 echo '[{"name":"hello-world","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]' > 'imagedefinitions.json'
             }

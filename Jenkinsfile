@@ -3,7 +3,8 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'docker build - jenkins_check .'
+                sh 'echo $GIT_COMMIT'
+                sh 'docker build -t jenkins_check .'
             }
         }
     }

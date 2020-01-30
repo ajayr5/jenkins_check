@@ -14,7 +14,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                echo "Build started on ${date}"
+                echo "Build started on `date`"
                 echo 'Building the Docker image...'
                 sh "docker build -t ${REPOSITORY_URI}:latest ."
                 sh "docker tag ${REPOSITORY_URI}:latest ${REPOSITORY_URI}:${IMAGE_TAG}"
@@ -22,7 +22,7 @@ pipeline {
         }
         stage('post-build') {
             steps {
-                echo "Build completed on ${date}"
+                echo "Build completed on `date`"
                 echo 'Pushing the Docker images...'
                 sh '$(aws ecr get-login --region us-east-2 --no-include-email)'
                 sh "docker push ${REPOSITORY_URI}:latest"

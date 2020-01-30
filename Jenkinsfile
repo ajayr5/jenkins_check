@@ -16,8 +16,8 @@ pipeline {
             steps {
                 echo 'Build started on `date`'
                 echo 'Building the Docker image...'
-                sh 'docker build -t $REPOSITORY_URI:latest .'
-                sh 'docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG'
+                sh 'docker build -t ${REPOSITORY_URI}:latest .'
+                sh 'docker tag ${REPOSITORY_URI}:latest ${REPOSITORY_URI}:${IMAGE_TAG}'
             }
         }
         stage('post-build') {

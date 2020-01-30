@@ -10,10 +10,7 @@ pipeline {
                     REPOSITORY_URI='426132155336.dkr.ecr.us-east-2.amazonaws.com/jenkinsautopush'
                     IMAGE_TAG=$GIT_COMMIT
                 }
-            }
-            sh '$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)'
-            
-            
+            }          
         }
         stage('build') {
             steps {

@@ -8,7 +8,7 @@ pipeline {
             steps {
                 script {
                     REPOSITORY_URI='426132155336.dkr.ecr.us-east-2.amazonaws.com/jenkinsautopush'
-                    IMAGE_TAG=$GIT_COMMIT
+                    IMAGE_TAG=GIT_COMMIT
                 }
             }          
         }

@@ -9,6 +9,7 @@ pipeline {
                 script {
                     REPOSITORY_URI='426132155336.dkr.ecr.us-east-2.amazonaws.com/jenkinsautopush'
                     COMMIT_HASH='$GIT_COMMIT'
+                    echo '$COMMIT_HASH'
                     IMAGE_TAG=${COMMIT_HASH:=latest}
                 }
             }

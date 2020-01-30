@@ -14,7 +14,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                echo "Build started on ${java.time.LocalDate.now()}"
+                echo "Build started on ${java.time.LocalDateTime.now()}"
                 echo 'Building the Docker image...'
                 sh "docker build -t ${REPOSITORY_URI}:latest ."
                 sh "docker tag ${REPOSITORY_URI}:latest ${REPOSITORY_URI}:${IMAGE_TAG}"
@@ -22,13 +22,13 @@ pipeline {
         }
         stage('post-build') {
             steps {
-                echo "Build completed on ${java.time.LocalDate.now()}"
+                echo "Build completed on ${java.time.LocalDateTime.now()}"
                 echo 'Pushing the Docker images...'
                 sh '$(aws ecr get-login --region us-east-2 --no-include-email)'
                 sh "docker push ${REPOSITORY_URI}:latest"
                 sh "docker push ${REPOSITORY_URI}:${IMAGE_TAG}"
                 echo 'Writing image definitions file...'
-                sh 'echo "[{"name":"hello-world","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]" > imagedefinitions.json'
+                sh "echo "[{"name":"${JOB_NAME}","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]" > imagedefinitions.json"
             }
         }
     }

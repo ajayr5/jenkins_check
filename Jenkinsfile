@@ -36,10 +36,6 @@ pipeline {
                     prettyJSON = JsonOutput.prettyPrint(jsonFormat)
                     echo "${prettyJSON}"
                 }
-                sh """git add imagedefinitions.json
-                      git commit -m "Updated imagedefinitions.json"
-                      git push origin ${GIT_BRANCH}
-                    """
             }
         }
     }

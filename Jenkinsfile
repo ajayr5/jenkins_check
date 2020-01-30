@@ -31,8 +31,10 @@ pipeline {
                 echo 'Writing image definitions file...'
                 sh """echo '[{"name":"${JOB_NAME}","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]' > imagedefinitions.json"""
                 script {
-                    prettyJSON = JsonOutput.prettyPrint('imagedefinitions.json')
-                    echo("${prettyJSON}")
+                    def json = readJSON file: 'imagedefinitions.json'
+                    def jsonFormat = JsonOutput.toJson(json)
+                    prettyJSON = JsonOutput.prettyPrint(jsonFormat)
+                    echo "${prettyJSON}"
                 }
             }
         }

@@ -1,10 +1,38 @@
+def REPOSITORY_URI
+def COMMIT_HASH
+def IMAGE_TAG
 pipeline {
     agent any
     stages {
+        stage ('pre_build') {
+            steps {
+                script {
+                    REPOSITORY_URI='426132155336.dkr.ecr.us-east-2.amazonaws.com/jenkinsautopush'
+                    COMMIT_HASH='$GIT_COMMIT'
+                    IMAGE_TAG=${COMMIT_HASH:=latest}
+                }
+            }
+            sh '$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)'
+            
+            
+        }
         stage('build') {
             steps {
-                sh 'echo $GIT_COMMIT'
-                sh 'docker build -t jenkins_check .'
+                echo 'Build started on `date`'
+                echo 'Building the Docker image...'
+                sh 'docker build -t $REPOSITORY_URI:latest .'
+                sh 'docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG'
+            }
+        }
+        stage('post-build') {
+            steps {
+                echo 'Build completed on `date`'
+                echo 'Pushing the Docker images...'
+                sh '$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)'
+                sh 'docker push $REPOSITORY_URI:latest'
+                sh 'docker push $REPOSITORY_URI:$IMAGE_TAG'
+                echo 'Writing image definitions file...'
+                echo ''[{"name":"hello-world","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]'' > 'imagedefinitions.json'
             }
         }
     }

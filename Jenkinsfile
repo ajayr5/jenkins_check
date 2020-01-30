@@ -14,6 +14,7 @@ pipeline {
         }
         stage('build') {
             steps {
+                echo  "my internal ip is: ${REPOSITORY_URI}"
                 echo 'Build started on `date`'
                 echo 'Building the Docker image...'
                 sh 'docker build -t ${REPOSITORY_URI}:latest .'

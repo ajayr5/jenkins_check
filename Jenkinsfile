@@ -34,13 +34,13 @@ pipeline {
                     def json = readJSON file: 'imagedefinitions.json'
                     def jsonFormat = JsonOutput.toJson(json)
                     prettyJSON = JsonOutput.prettyPrint(jsonFormat)
-                    echo "${prettyJSON}
-                    sh """git checkout ${GIT_BRANCH}
+                    echo "${prettyJSON}"
+                }
+                sh """git checkout ${GIT_BRANCH}
                           git add *
                           git commit -m "Updated imagedefinitions.json"
                           git push origin ${GIT_BRANCH}
-                    """"
-                }
+                    """
             }
         }
     }

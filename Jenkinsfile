@@ -31,7 +31,7 @@ pipeline {
                 sh 'docker push $REPOSITORY_URI:latest'
                 sh 'docker push $REPOSITORY_URI:$IMAGE_TAG'
                 echo 'Writing image definitions file...'
-                echo ''[{"name":"hello-world","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]'' > 'imagedefinitions.json'
+                echo '[{"name":"hello-world","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]' > 'imagedefinitions.json'
             }
         }
     }

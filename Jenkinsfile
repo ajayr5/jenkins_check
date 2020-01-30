@@ -8,9 +8,7 @@ pipeline {
             steps {
                 script {
                     REPOSITORY_URI='426132155336.dkr.ecr.us-east-2.amazonaws.com/jenkinsautopush'
-                    COMMIT_HASH='$GIT_COMMIT'
-                    echo '$COMMIT_HASH'
-                    IMAGE_TAG=${COMMIT_HASH:=latest}
+                    IMAGE_TAG=$GIT_COMMIT
                 }
             }
             sh '$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)'

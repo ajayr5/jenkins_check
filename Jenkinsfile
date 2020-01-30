@@ -28,7 +28,7 @@ pipeline {
                 sh "docker push ${REPOSITORY_URI}:latest"
                 sh "docker push ${REPOSITORY_URI}:${IMAGE_TAG}"
                 echo 'Writing image definitions file...'
-                sh label: '', script: 'echo "[{"name":"${JOB_NAME}","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]" > imagedefinitions.json'
+                sh """echo "[{"name":"${JOB_NAME}","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]" > imagedefinitions.json"""
             }
         }
     }

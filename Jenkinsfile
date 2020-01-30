@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo "Build completed on ${java.time.LocalDateTime.now()}"
                 echo 'Pushing the Docker images...'
-                sh '$(aws ecr get-login --region us-east-2 --no-include-email)'
+                sh '#!/bin/sh -e\n $(aws ecr get-login --region us-east-2 --no-include-email)'
                 sh "docker push ${REPOSITORY_URI}:latest"
                 sh "docker push ${REPOSITORY_URI}:${IMAGE_TAG}"
                 echo 'Writing image definitions file...'
